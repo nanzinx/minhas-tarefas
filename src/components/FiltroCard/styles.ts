@@ -6,19 +6,32 @@ type Props = {
 
 export const Card = styled.div<Props>`
   padding: 8px;
-  border: 1px solid ${(props) => (props.ativo ? '#1e90ff' : '#a1a1a1')};
-  background-color: ${(props) => (props.ativo ? '#fff' : '#fcfcfc')};
-  color: ${(props) => (props.ativo ? '#1e90ff' : '#5e5e5e')};
+  color: ${(props) => (props.ativo ? '#44BD32' : '#5e5e5e')};
+  border: 1px solid ${(props) => (props.ativo ? '#44BD32' : '#a1a1a1')};
   border-radius: 8px;
+  background-color: #fcfcfc;
   cursor: pointer;
+
+  @media (max-width: 600px) {
+    font-size: 12px;
+    padding: 04px;
+
+    text-align: center;
+  }
 `
 
 export const Contador = styled.span`
   font-weight: bold;
   font-size: 24px;
   display: block;
+  @media (max-width: 600px) {
+    font-size: 16px;
+  }
 `
 
 export const Label = styled.span`
-  font-size: 14px;
+  font-size: 11px;
+  @media (max-width: 600px) {
+    font-size: 10px;
+  }
 `

@@ -1,21 +1,19 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-
 import FiltroCard from '../../components/FiltroCard'
-import { RootReducer } from '../../store'
-import { alterarTermo } from '../../store/reducers/filtro'
-
 import * as S from './styles'
-import * as enums from '../../utils/enums/tarefa'
-import { Botao, Campo } from '../../styles'
+import { Botao, Input } from '../../styles/index'
+import { RootReducer } from '../../store'
+import { alteraTermo } from '../../store/reducers/filtro'
+import * as enums from '../../utils/enums/Contato'
 
 type Props = {
   mostrarFiltros: boolean
 }
 
 const BarraLateral = ({ mostrarFiltros }: Props) => {
-  const navigate = useNavigate()
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const { termo } = useSelector((state: RootReducer) => state.filtro)
 
   return (
@@ -23,47 +21,41 @@ const BarraLateral = ({ mostrarFiltros }: Props) => {
       <div>
         {mostrarFiltros ? (
           <>
-            <Campo
+            <Input
               type="text"
-              placeholder="Buscar"
+              placeholder="🔍︎ Buscar"
               value={termo}
-              onChange={(evento) => dispatch(alterarTermo(evento.target.value))}
+              onChange={(evento) => dispatch(alteraTermo(evento.target.value))}
             />
             <S.Filtros>
               <FiltroCard
-                valor={enums.Status.PENDENTE}
+                valor={enums.Status.FAVORITOS}
                 criterio="status"
-                legenda="pendentes"
+                legenda="favoritos"
               />
               <FiltroCard
-                valor={enums.Status.CONCLUIDA}
-                criterio="status"
-                legenda="concluídas"
-              />
-              <FiltroCard
-                valor={enums.Prioridade.URGENTE}
+                valor={enums.Prioridade.FAMILIA}
                 criterio="prioridade"
-                legenda="urgentes"
+                legenda="familia"
               />
               <FiltroCard
-                valor={enums.Prioridade.IMPORTANTE}
+                valor={enums.Prioridade.AMIGOS}
                 criterio="prioridade"
-                legenda="importantes"
+                legenda="amigos"
               />
               <FiltroCard
-                valor={enums.Prioridade.NORMAL}
+                valor={enums.Prioridade.TRABALHO}
                 criterio="prioridade"
-                legenda="normal"
+                legenda="trabalho"
               />
-              <FiltroCard criterio="todas" legenda="todas" />
+              <FiltroCard criterio="todos" legenda="todos" />
             </S.Filtros>
           </>
         ) : (
-          <Botao onClick={() => navigate('/')}>Voltar a lista de tarefas</Botao>
+          <Botao onClick={() => navigate('/')}>← Voltar</Botao>
         )}
       </div>
     </S.Aside>
   )
 }
-
 export default BarraLateral

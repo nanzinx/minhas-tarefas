@@ -1,31 +1,45 @@
 import styled from 'styled-components'
 
 export const Form = styled.form`
-  max-width: 547px;
+  max-width: 900px;
   width: 100%;
-  font-weight: bold;
-  font-size: 14px;
-  color: #666666;
 
   textarea {
     resize: none;
-    margin: 16px 0;
   }
 `
-
 export const Opcoes = styled.div`
+  display: flex;
+  justify-content: space-between;
   margin-bottom: 16px;
 
-  p {
-    margin-bottom: 6px;
+  @media (max-width: 600px) {
+    flex-direction: column;
+      align-items: flex-start;
   }
-
   label {
-    margin-right: 6px;
+    font-weight: 600;
+    font-size: 14px;
+    color: #2c2c2c;
   }
-`
+  input[type='radio'] {
+    margin-right: 8px;
 
+    &:checked {
+      accent-color:rgb(0, 255, 76);
+  }
+
+`
 export const Opcao = styled.div`
-  display: inline;
   text-transform: capitalize;
+  display: flex;
+
+  &:hover {
+    p, label {
+      color: rgb(0, 253, 21);
+    }
+
+    input{
+    cursor: pointer;
+    }
 `

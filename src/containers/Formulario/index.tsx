@@ -1,52 +1,77 @@
 import { FormEvent, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-
-import { BotaoSalvar, MainContainer, Titulo } from '../../styles'
-import { Campo } from '../../styles'
-import { Form, Opcoes, Opcao } from './styles'
-import * as enums from '../../utils/enums/tarefa'
-import { cadastrar } from '../../store/reducers/tarefas'
+import { Botao, MainContainer, Titulo } from '../../styles/index'
+import { Input } from '../../styles/index'
+import { Form, Opcao, Opcoes } from './styles'
+import * as enums from '../../utils/enums/Contato'
+import { cadastrar } from '../../store/reducers/contato'
 
 const Formulario = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const [nome, setNome] = useState('')
+  const [sobrenome, setSobrenome] = useState<string | undefined>('')
+  const [email, setEmail] = useState<string | undefined>('')
+  const [telefone, setTelefone] = useState(0)
+  const [prioridade, setPrioridade] = useState(enums.Prioridade.TRABALHO)
 
-  const [titulo, setTitulo] = useState('')
-  const [descricao, setDescricao] = useState('')
-  const [prioridade, setPrioridade] = useState(enums.Prioridade.NORMAL)
-
-  const cadastrarTarefa = (evento: FormEvent) => {
+  const CadastraContato = () => (evento: FormEvent<HTMLFormElement>) => {
     evento.preventDefault()
+
     dispatch(
       cadastrar({
-        titulo,
+        nome,
+        sobrenome,
+        email,
         prioridade,
-        descricao,
-        status: enums.Status.PENDENTE
+        telefone,
+        status: enums.Status.COMUNS
       })
     )
+
+    setNome('')
+    setSobrenome('')
+    setEmail('')
+    setTelefone(0)
+    setPrioridade(enums.Prioridade.TRABALHO)
+
     navigate('/')
   }
 
   return (
     <MainContainer>
-      <Titulo>Nova Tarefa</Titulo>
-      <Form onSubmit={cadastrarTarefa}>
-        <Campo
-          value={titulo}
-          onChange={(evento) => setTitulo(evento.target.value)}
+      <Form onSubmit={CadastraContato()}>
+        <Titulo as="h2">Cadastro de Contato</Titulo>
+        <Input
+          value={nome}
+          onChange={(evento) => setNome(evento.target.value)}
           type="text"
-          placeholder="Título"
+          placeholder="Nome"
+          required
         />
-        <Campo
-          value={descricao}
-          onChange={({ target }) => setDescricao(target.value)}
-          as="textarea"
-          placeholder="Descrição da tarefa"
+        <Input
+          value={sobrenome}
+          onChange={(evento) => setSobrenome(evento.target.value)}
+          type="text"
+          placeholder="Sobrenome"
+        />
+
+        <Input
+          id="telefone"
+          value={telefone}
+          placeholder="Telefone"
+          onChange={(evento) => setTelefone(parseInt(evento.target.value) || 0)}
+          type="number"
+        />
+        <Input
+          value={email}
+          onChange={(evento) => setEmail(evento.target.value)}
+          type="email"
+          placeholder="E-mail"
         />
         <Opcoes>
-          <p>Prioridade</p>
+          <p>Prioridade:</p>
           {Object.values(enums.Prioridade).map((prioridade) => (
             <Opcao key={prioridade}>
               <input
@@ -57,16 +82,15 @@ const Formulario = () => {
                   setPrioridade(evento.target.value as enums.Prioridade)
                 }
                 id={prioridade}
-                defaultChecked={prioridade === enums.Prioridade.NORMAL}
-              />{' '}
+                defaultChecked={prioridade === enums.Prioridade.TRABALHO}
+              />
               <label htmlFor={prioridade}>{prioridade}</label>
             </Opcao>
           ))}
         </Opcoes>
-        <BotaoSalvar type="submit">Cadastrar</BotaoSalvar>
+        <Botao type="submit">Cadastrar</Botao>
       </Form>
     </MainContainer>
   )
 }
-
 export default Formulario
